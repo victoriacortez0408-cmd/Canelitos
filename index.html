@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinnamon & Co. | Pastelería Artesanal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========================
+           Variables y Paleta de Colores
+           ======================== */
+        :root {
+            --color-crema: #FDFBF7; /* Fondo principal */
+            --color-nude: #EBC8B2;  /* Tonos piel / acentos suaves */
+            --color-cafe-claro: #D2B48C; /* Detalles y bordes */
+            --color-cafe-oscuro: #8B5E3C; /* Botones y énfasis */
+            --color-texto: #4A3728; /* Texto principal para legibilidad */
+            
+            --font-titulos: 'Playfair Display', serif;
+            --font-cuerpo: 'Montserrat', sans-serif;
+        }
+
+        /* ========================
+           Estilos Base
+           ======================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-cuerpo);
+            background-color: var(--color-crema);
+            color: var(--color-texto);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-titulos);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--color-cafe-oscuro);
+        }
+
+        /* ========================
+           Header y Navegación
+           ======================== */
+        header {
+            background-color: rgba(253, 251, 247, 0.95);
+            padding: 20px 50px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .logo {
+            font-family: var(--font-titulos);
+            font-size: 1.8rem;
+            color: var(--color-cafe-oscuro);
+            font-style: italic;
+        }
+
+        /* ========================
+           Hero Section (Slider)
+           ======================== */
+        .hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 60px; /* Compensa el header fijo */
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        /* Oscurecer la imagen para que el texto resalte */
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(74, 55, 40, 0.4);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: var(--color-crema);
+            padding: 0 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .btn {
+            background-color: var(--color-nude);
+            color: var(--color-texto);
+            padding: 15px 30px;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-cuerpo);
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--color-cafe-oscuro);
+            color: var(--color-crema);
+        }
+
+        /* ========================
+           Recomendaciones (Grid)
+           ======================== */
+        .recommendations {
+            padding: 80px 20px;
+            background-color: var(--color-crema);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product-info h3 {
+            color: var(--color-cafe-oscuro);
+            font-size: 1.5rem;
+        }
+
+        /* ========================
+           Testimonios (Social Proof)
+           ======================== */
+        .reviews {
+            padding: 80px 20px;
+            background-color: var(--color-nude);
+        }
+
+        .review-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .review-card {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            width: 320px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .stars {
+            color: var(--color-cafe-oscuro);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .review-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        /* ========================
+           Formulario de Pedidos
+           ======================== */
+        .order-section {
+            padding: 80px 20px;
+            background-color: var(--color-crema);
+        }
+
+        .order-form {
+            background: #fff;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid var(--color-nude);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--color-cafe-oscuro);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--color-cafe-claro);
+            border-radius: 8px;
+            font-family: var(--font-cuerpo);
+            outline: none;
+            background-color: var(--color-crema);
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--color-cafe-oscuro);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--color-cafe-oscuro);
+            color: var(--color-crema);
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--color-texto);
+        }
+
+        /* ========================
+           Footer
+           ======================== */
+        footer {
+            background-color: var(--color-texto);
+            color: var(--color-nude);
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        footer h3 {
+            color: var(--color-crema);
+            margin-bottom: 10px;
+        }
+
+        .social-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--color-nude);
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid var(--color-nude);
+            padding: 10px 20px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: var(--color-nude);
+            color: var(--color-texto);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Cinnamon & Co.</div>
+    </header>
+
+    <section class="hero" id="inicio">
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1509365465985-25d11c17e812?q=80&w=1920');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1621236378699-8597faf6a176?q=80&w=1920');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1550426735-c33c7cc32ed2?q=80&w=1920');"></div>
+        
+        <div class="hero-content">
+            <h1>El arte del rol de canela</h1>
+            <p>Esponjosos, cálidos y horneados con amor por la Chef Fabiana.</p>
+            <a href="#pedidos" class="btn">Ordenar Ahora</a>
+        </div>
+    </section>
+
+    <section class="recommendations">
+        <h2>Los Favoritos de la Casa</h2>
+        <div class="grid-container">
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1509365465985-25d11c17e812?q=80&w=600" alt="Rol Clásico">
+                <div class="product-info">
+                    <h3>El Clásico</h3>
+                    <p>Canela premium, masa madre y nuestro glaseado de queso crema original.</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1621236378699-8597faf6a176?q=80&w=600" alt="Rol con Pecanas">
+                <div class="product-info">
+                    <h3>Pecan & Caramelo</h3>
+                    <p>Bañado en caramelo artesanal y nueces pecanas tostadas.</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1550426735-c33c7cc32ed2?q=80&w=600" alt="Caja de Roles">
+                <div class="product-info">
+                    <h3>Caja Familiar</h3>
+                    <p>6 roles de canela a elección, perfectos para compartir el fin de semana.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="reviews">
+        <h2>Lo que dicen nuestros clientes</h2>
+        <div class="review-container">
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p>"La masa es increíblemente suave y el equilibrio del dulce es perfecto. Sin duda los mejores de la ciudad."</p>
+                <strong>— Valeria M.</strong>
+            </div>
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p>"Hice un pedido para mi cumpleaños y llegaron calientitos. ¡El glaseado es una locura total!"</p>
+                <strong>— Andrés C.</strong>
+            </div>
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p>"Atención de primera y sabor inigualable. Se nota la dedicación de la Chef en cada bocado."</p>
+                <strong>— Lucía R.</strong>
+            </div>
+        </div>
+    </section>
+
+    <section class="order-section" id="pedidos">
+        <h2>Haz tu pedido</h2>
+        <form class="order-form" id="whatsappForm">
+            <div class="form-group">
+                <label for="clienteNombre">Nombre Completo</label>
+                <input type="text" id="clienteNombre" placeholder="Ej. Ana Pérez" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="productoSeleccionado">¿Qué deseas ordenar?</label>
+                <select id="productoSeleccionado" required>
+                    <option value="" disabled selected>Selecciona una opción</option>
+                    <option value="1 Rol Clásico">1 Rol Clásico</option>
+                    <option value="1 Rol Pecan & Caramelo">1 Rol Pecan & Caramelo</option>
+                    <option value="Caja de 4 Roles">Caja de 4 Roles</option>
+                    <option value="Caja Familiar (6 Roles)">Caja Familiar (6 Roles)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="cantidad">Cantidad</label>
+                <input type="number" id="cantidad" min="1" value="1" required>
+            </div>
+
+            <div class="form-group">
+                <label for="direccion">Dirección de Envío</label>
+                <input type="text" id="direccion" placeholder="Calle, Barrio, Número" required>
+            </div>
+
+            <button type="submit" class="btn btn-submit">Enviar Pedido por WhatsApp</button>
+        </form>
+    </section>
+
+    <footer>
+        <h3>Pastelería Artesanal</h3>
+        <p>Elaborado con pasión por la Chef Fabiana Villarroel.</p>
+        <a href="https://www.instagram.com/fabianavillarroelh" target="_blank" class="social-link">
+            Síguenos en Instagram @fabianavillarroelh
+        </a>
+    </footer>
+
+    <script>
+        /* Lógica del Slider Automático */
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        // Cambia de imagen cada 4 segundos
+        setInterval(nextSlide, 4000);
+
+        /* Lógica de Envío a WhatsApp */
+        document.getElementById('whatsappForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita que la página se recargue
+            
+            // Recopilar los datos del formulario
+            const nombre = document.getElementById('clienteNombre').value;
+            const producto = document.getElementById('productoSeleccionado').value;
+            const cantidad = document.getElementById('cantidad').value;
+            const direccion = document.getElementById('direccion').value;
+            
+            // Número proporcionado
+            const telefono = "59175087873";
+            
+            // Estructurar el mensaje
+            const mensaje = `¡Hola Chef Fabiana! 🧁%0A%0AMi nombre es *${nombre}* y me gustaría hacer el siguiente pedido:%0A%0A📦 *Producto:* ${producto}%0A🔢 *Cantidad:* ${cantidad}%0A📍 *Dirección de envío:* ${direccion}%0A%0A¡Muchas gracias!`;
+            
+            // Redirigir a la API de WhatsApp
+            const urlWhatsApp = `https://wa.me/${telefono}?text=${mensaje}`;
+            window.open(urlWhatsApp, '_blank');
+        });
+    </script>
+</body>
+</html>
